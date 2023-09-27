@@ -1,0 +1,26 @@
+{
+  "name": "calculator-testign",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sever.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-Kretschmer/calculator-testign.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt-Kretschmer/calculator-testign/issues"
+  },
+  "homepage": "https://github.com/matt-Kretschmer/calculator-testign#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
