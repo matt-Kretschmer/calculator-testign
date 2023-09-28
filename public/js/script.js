@@ -89,21 +89,25 @@ const buildEquation = (inputString) => {
     let equationIndex = 0;
 
     const splitChars = inputString.split('')
-
+    let isMultipliedOrDivided = false;
     return splitChars.reduce((accumulated, char, index) => {
         if(char === '+'){
+            isMultipliedOrDivided = false;
             equationIndex++;
             return accumulated
         }else if(char === '-'){
 
             if(splitChars?.[index+1] === '-'){
                 equationIndex++;
+                isMultipliedOrDivided = false;
                 return accumulated;
             }else if(splitChars?.[index-1] === '-'){
                 return accumulated
             }
 
-            equationIndex++
+            if(!isMultipliedOrDivided){
+                equationIndex++
+            }
         }else if(char === "×"|| char === "÷"){
 
             isMultipliedOrDivided = true;
