@@ -5,13 +5,25 @@ describe('Calculator App', () => {
   let browser;
   let page;
 
-  before(async () => {
-    browser = await puppeteer.launch({ headless: true });
-    page = await browser.newPage();
-    await page.goto('http://localhost:3000/');
+  before(function() {
+    this.timeout(5000); 
+    return (async () => {
+      try {
+        browser = await puppeteer.launch({ headless: false });
+        page = await browser.newPage();
+        await page.goto('https://m6p8pjdqm3.eu-west-1.awsapprunner.com');
+      } catch (error) {
+        console.error('Error during setup:', error);
+        throw error;
+      }
+    })();
   });
+  
 
   after(async () => {
+    if (page) {
+      await page.close();
+    }
     await browser.close();
   });
 
@@ -70,7 +82,6 @@ describe('Calculator App', () => {
     const isWithinTolerance = Math.abs(expectedValue - actualValue) <= tolerance * Math.max(expectedValue, actualValue);
     assert.strictEqual(isWithinTolerance, true);
   });
-  
 
   it('should handle AC (All Clear) button', async () => {
     await page.click('input[value="1"]');
@@ -89,6 +100,44 @@ describe('Calculator App', () => {
     const displayValue = await page.$eval('input#displayArea', el => el.value);
     assert.strictEqual(displayValue, '1');
   });
+
+  it('should handle division by zero', async () => {
+    await page.click('input[value="1"]');
+    await page.click('input[value="0"]');
+    await page.click('input[value="÷"]');
+    await page.click('input[value="0"]');
+    await page.click('input[value="="]');
+
+    const displayValue = await page.$eval('input#displayArea', el => el.value);
+    assert.strictEqual(displayValue, 'Infinity');
+  });
+
+  it('should handle multiplication by zero', async () => {
+    await page.click('input[value="1"]');
+    await page.click('input[value="0"]');
+    await page.click('input[value="×"]');
+    await page.click('input[value="0"]');
+    await page.click('input[value="="]');
+
+    const displayValue = await page.$eval('input#displayArea', el => el.value);
+    assert.strictEqual(displayValue, '0');
+  });
+
+  it('should handle consecutive operations', async () => {
+    await page.click('input[value="1"]');
+    await page.click('input[value="0"]');
+    await page.click('input[value="+"]');
+    await page.click('input[value="-"]');
+    await page.click('input[value="5"]');
+    await page.click('input[value="×"]');
+    await page.click('input[value="2"]');
+    await page.click('input[value="="]');
+
+    const displayValue = await page.$eval('input#displayArea', el => el.value);
+    assert.strictEqual(displayValue, '0');
+  });
+
+
 
 });
 
