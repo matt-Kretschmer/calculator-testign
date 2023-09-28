@@ -413,3 +413,27 @@ describe("Mixed Operators", () => {
     cy.get("[data-test='display']").should("exist").should('have.value', '23.5');
   });
 });
+
+
+describe("Zero as the Divisor", () => {
+
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
+  it("should not be able to divide by zero", () => {
+    cy.get("[data-test='one']").should("exist").click();
+    cy.get("[data-test='divide']").should("exist").click();
+    cy.get("[data-test='zero']").should("exist").click();
+    cy.get("[data-test='equals']").should("exist").click();
+    cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
+  });
+
+  it("should not be able to divide by double-zero", () => {
+    cy.get("[data-test='one']").should("exist").click();
+    cy.get("[data-test='divide']").should("exist").click();
+    cy.get("[data-test='double-zero']").should("exist").click();
+    cy.get("[data-test='equals']").should("exist").click();
+    cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
+  });  
+});
