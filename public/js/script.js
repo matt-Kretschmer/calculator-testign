@@ -67,46 +67,59 @@ doubleZero.onclick = () => click(doubleZero.value);
 zero.onclick = () => click(zero.value);
 
 equal.onclick = () => {
+    try {
     const equation = buildEquation(textInput.value);
-    
-    const answer = equation.reduce((value, curr) => {
-        let currentValue = curr
-        if(curr.includes("÷") || curr.includes("×")){
-            currentValue = handleMultiplicationAndDivision(curr)
-        }
+    console.log(equation)
         
-        return value += parseNumber(currentValue, 0)
-    }, 0)
-    textInput.value = answer;
+        const answer = equation.reduce((value, curr) => {
+            let currentValue = curr
+            if(curr.includes("÷") || curr.includes("×")){
+                currentValue = handleMultiplicationAndDivision(curr)
+            }
+            return value += parseNumber(currentValue, 0)
+        }, 0)
+        textInput.value = answer;
+    } catch (error) {
+        textInput.value = "Syntax Error";
+    }
 }
 
+
 const buildEquation = (inputString) => {
-    let index = 0;
-    return inputString.split('').reduce((accumulated, char) => {
-        switch (char) {
-            case '+':
-                index++;
-            break;
-            case '-':
-                index++
-                break;
-            default:
-                accumulated[index] = accumulated[index] ? `${accumulated[index]}${char}` : char  
-                break;
+    let equationIndex = 0;
+
+    const splitChars = inputString.split('')
+
+    return splitChars.reduce((accumulated, char, index) => {
+        if(char === '+'){
+            equationIndex++;
+            return accumulated
+        }else if(char === '-'){
+
+            if(splitChars?.[index+1] === '-'){
+                equationIndex++;
+                return accumulated;
+            }else if(splitChars?.[index-1] === '-'){
+                return accumulated
+            }
+
+            equationIndex++
+        }else if(char === "×"|| char === "÷"){
+
+            isMultipliedOrDivided = true;
+
         }
-        return accumulated
+        
+        accumulated[equationIndex] = accumulated?.[equationIndex] ? `${accumulated[equationIndex]}${char}` : char;
+        return accumulated;
     }, [])
 }
 
-const calculate = (intialValue, alternator) => {
-    return intialValue + alternator
-}
-
 const handleMultiplicationAndDivision = (value) => {
-    const operators = ["×", '÷'];
+    const operators = ["×", "÷"];
     const operatorStack = [];
     const numberStack = [];
-    let currentNumber = '';
+    let currentNumber = "";
   
     for (let i = 0; i < value.length; i++) {
       const char = value[i];
@@ -114,9 +127,13 @@ const handleMultiplicationAndDivision = (value) => {
       if (operators.includes(char)) {
         operatorStack.push(char);
         numberStack.push(parseFloat(currentNumber));
-        currentNumber = '';
+        currentNumber = "";
       } else {
-        currentNumber += char;
+        if (currentNumber === "" && (char === "-" || char === "+")) {
+          currentNumber += char;
+        } else {
+          currentNumber += char;
+        }
       }
     }
   
@@ -127,22 +144,20 @@ const handleMultiplicationAndDivision = (value) => {
   
     while (i < numberStack.length) {
       const operator = operatorStack.shift();
-      const nextNumber = parseNumber(numberStack[i],1);
+      const nextNumber = parseNumber(numberStack[i], 1);
   
-      if (operator === '×') {
+      if (operator === "×") {
         result *= nextNumber;
-      } else if (operator === '÷') {
+      } else if (operator === "÷") {
         result /= nextNumber;
       }
   
       i++;
     }
+  
     return result;
-}
-
-const multiplyValues = (values) => {
-    return values
-}
+  };
+  
 
 const parseNumber = (inputNumber, defaultValue) => {
     try {
