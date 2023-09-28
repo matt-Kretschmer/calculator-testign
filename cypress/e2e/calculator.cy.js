@@ -1,7 +1,9 @@
+const url = "http://localhost:3000";
+
 describe("Buttons", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should display zero when zero is clicked", () => {
@@ -93,7 +95,7 @@ describe("Buttons", () => {
 describe("Display", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should start with an empty display", () => {
@@ -133,7 +135,7 @@ describe("Display", () => {
 describe("Double Positive", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should add positives correctly", () => {
@@ -172,7 +174,7 @@ describe("Double Positive", () => {
 describe("Double Negative", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should add negatives correctly", () => {
@@ -219,7 +221,7 @@ describe("Double Negative", () => {
 describe("Double Mixed", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should add positive and negatives correctly", () => {
@@ -262,7 +264,7 @@ describe("Double Mixed", () => {
 describe("Triple Mixed", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should add three operands correctly", () => {
@@ -317,7 +319,7 @@ describe("Triple Mixed", () => {
 describe("Decimals", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should add decimals correctly", () => {
@@ -380,7 +382,7 @@ describe("Decimals", () => {
 describe("Mixed Operators", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
   it("should handle multiple operators correctly", () => {
