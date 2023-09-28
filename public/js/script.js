@@ -65,4 +65,108 @@ subtract.onclick = () => click(subtract.value);
 
 doubleZero.onclick = () => click(doubleZero.value);
 zero.onclick = () => click(zero.value);
-equal.onclick = () => textInput.value = eval(replace());
+
+equal.onclick = () => {
+    try {
+    const equation = buildEquation(textInput.value);
+    console.log(equation)
+        
+        const answer = equation.reduce((value, curr) => {
+            let currentValue = curr
+            if(curr.includes("÷") || curr.includes("×")){
+                currentValue = handleMultiplicationAndDivision(curr)
+            }
+            return value += parseNumber(currentValue, 0)
+        }, 0)
+        textInput.value = answer;
+    } catch (error) {
+        textInput.value = "Syntax Error";
+    }
+}
+
+
+const buildEquation = (inputString) => {
+    let equationIndex = 0;
+
+    const splitChars = inputString.split('')
+    let isMultipliedOrDivided = false;
+    return splitChars.reduce((accumulated, char, index) => {
+        if(char === '+'){
+            isMultipliedOrDivided = false;
+            equationIndex++;
+            return accumulated
+        }else if(char === '-'){
+
+            if(splitChars?.[index+1] === '-'){
+                equationIndex++;
+                isMultipliedOrDivided = false;
+                return accumulated;
+            }else if(splitChars?.[index-1] === '-'){
+                return accumulated
+            }
+
+            if(!isMultipliedOrDivided){
+                equationIndex++
+            }
+        }else if(char === "×"|| char === "÷"){
+
+            isMultipliedOrDivided = true;
+
+        }
+        
+        accumulated[equationIndex] = accumulated?.[equationIndex] ? `${accumulated[equationIndex]}${char}` : char;
+        return accumulated;
+    }, [])
+}
+
+const handleMultiplicationAndDivision = (value) => {
+    const operators = ["×", "÷"];
+    const operatorStack = [];
+    const numberStack = [];
+    let currentNumber = "";
+  
+    for (let i = 0; i < value.length; i++) {
+      const char = value[i];
+  
+      if (operators.includes(char)) {
+        operatorStack.push(char);
+        numberStack.push(parseFloat(currentNumber));
+        currentNumber = "";
+      } else {
+        if (currentNumber === "" && (char === "-" || char === "+")) {
+          currentNumber += char;
+        } else {
+          currentNumber += char;
+        }
+      }
+    }
+  
+    numberStack.push(parseFloat(currentNumber));
+  
+    let result = numberStack[0];
+    let i = 1;
+  
+    while (i < numberStack.length) {
+      const operator = operatorStack.shift();
+      const nextNumber = parseNumber(numberStack[i], 1);
+  
+      if (operator === "×") {
+        result *= nextNumber;
+      } else if (operator === "÷") {
+        result /= nextNumber;
+      }
+  
+      i++;
+    }
+  
+    return result;
+  };
+  
+
+const parseNumber = (inputNumber, defaultValue) => {
+    try {
+        return Number(inputNumber)
+    }catch{
+        return defaultValue
+    }
+}
