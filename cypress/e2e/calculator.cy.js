@@ -1,4 +1,4 @@
-const url = "http://localhost:3000";
+const url = "https://m6p8pjdqm3.eu-west-1.awsapprunner.com";
 
 describe("Buttons", () => {
 
@@ -414,7 +414,6 @@ describe("Mixed Operators", () => {
   });
 });
 
-
 describe("Zero as the Divisor", () => {
 
   beforeEach(() => {
@@ -435,5 +434,5 @@ describe("Zero as the Divisor", () => {
     cy.get("[data-test='double-zero']").should("exist").click();
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
-  });  
+  });
 });
