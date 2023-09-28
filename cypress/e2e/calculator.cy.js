@@ -202,6 +202,26 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='display']").should("exist").should('have.value', '0.25');
   });
 
+  it("should not be able to divide by zero", () => {
+    cy.get("[data-test='subtract']").should("exist").click();
+    cy.get("[data-test='two']").should("exist").click();
+    cy.get("[data-test='divide']").should("exist").click();
+    cy.get("[data-test='subtract']").should("exist").click();
+    cy.get("[data-test='zero']").should("exist").click();
+    cy.get("[data-test='equals']").should("exist").click();
+    cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
+  });
+
+  it("should not be able to divide by double-zero", () => {
+    cy.get("[data-test='subtract']").should("exist").click();
+    cy.get("[data-test='two']").should("exist").click();
+    cy.get("[data-test='divide']").should("exist").click();
+    cy.get("[data-test='subtract']").should("exist").click();
+    cy.get("[data-test='double-zero']").should("exist").click();
+    cy.get("[data-test='equals']").should("exist").click();
+    cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
+  });
+
 
   //operating on one positive and one negative
   it("should add positive and negatives correctly", () => {
