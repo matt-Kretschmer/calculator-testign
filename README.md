@@ -11,4 +11,4 @@ A basic calculator with included
 - Select your browser of choice (must already be installed)
 - Click "Start Testing"
 - Click "calculator.cy.js"
-- The test suite will now run automatically
+- The test suite will now run automatically (note that the calculator application must be running on port 3000)
