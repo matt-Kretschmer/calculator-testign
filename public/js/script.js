@@ -103,6 +103,7 @@ const buildEquation = (inputString) => {
                 return accumulated
             }
 
+            equationIndex++
         }else if(char === "×"|| char === "÷"){
 
             isMultipliedOrDivided = true;
