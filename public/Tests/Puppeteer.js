@@ -6,7 +6,7 @@ describe('Calculator App', () => {
   let page;
 
   before(function() {
-    this.timeout(5000); 
+    this.timeout(20000); 
     return (async () => {
       try {
         browser = await puppeteer.launch({ headless: false });
@@ -137,7 +137,81 @@ describe('Calculator App', () => {
     assert.strictEqual(displayValue, '0');
   });
 
+  it('should handle decimal numbers', async () => {
+    await page.click('input[value="1"]');
+    await page.click('input[value="."]');
+    await page.click('input[value="5"]');
+    await page.click('input[value="+"]');
+    await page.click('input[value="2"]');
+    await page.click('input[value="="]');
+  
+    const displayValue = await page.$eval('input#displayArea', el => el.value);
+    assert.strictEqual(displayValue, '3.5');
+  });
 
+  
+  it('should handle negative numbers', async () => {
+    await page.click('input[value="5"]');
+    await page.click('input[value="-"]');
+    await page.click('input[value="3"]');
+    await page.click('input[value="="]');
+  
+    const displayValue = await page.$eval('input#displayArea', el => el.value);
+    assert.strictEqual(displayValue, '2');
+  });
+
+it('should handle clicking 0 button', async () => {
+  await page.click('input[value="0"]');
+  const displayValue = await page.$eval('input#displayArea', el => el.value);
+  assert.strictEqual(displayValue, '0');
+});
+
+it('should handle clicking decimal (.) button', async () => {
+  await page.click('input[value="1"]');
+  await page.click('input[value="."]');
+  await page.click('input[value="5"]');
+  const displayValue = await page.$eval('input#displayArea', el => el.value);
+  assert.strictEqual(displayValue, '1.5');
+});
+
+it('should handle clicking AC button', async () => {
+  await page.click('input[value="1"]');
+  await page.click('input[value="2"]');
+  await page.click('input#AC');
+  const displayValue = await page.$eval('input#displayArea', el => el.value);
+  assert.strictEqual(displayValue, '');
+});
+
+it('should handle clicking DE (Delete) button', async () => {
+  await page.click('input[value="1"]');
+  await page.click('input[value="2"]');
+  await page.click('input#DE');
+  const displayValue = await page.$eval('input#displayArea', el => el.value);
+  assert.strictEqual(displayValue, '1');
+});
+
+it('should handle clicking equal (=) button', async () => {
+  await page.click('input[value="1"]');
+  await page.click('input[value="+"]');
+  await page.click('input[value="2"]');
+  await page.click('input[value="="]');
+  const displayValue = await page.$eval('input#displayArea', el => el.value);
+  assert.strictEqual(displayValue, '3');
+});
+
+it('should handle large numbers', async () => {
+  await page.click('input[value="9"]');
+  await page.click('input[value="8"]');
+  await page.click('input[value="7"]');
+  await page.click('input[value="6"]');
+  await page.click('input[value="+"]');
+  await page.click('input[value="1"]');
+  await page.click('input[value="2"]');
+  await page.click('input[value="="]');
+  
+  const displayValue = await page.$eval('input#displayArea', el => el.value);
+  assert.strictEqual(displayValue, '9888');
+});
 
 });
 
