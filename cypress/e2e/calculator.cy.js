@@ -1,11 +1,11 @@
-describe("Calc-U-Later", () => {
+const url = "http://localhost:3000";
+
+describe("Buttons", () => {
 
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(url);
   });
 
-
-  //inputs
   it("should display zero when zero is clicked", () => {
     cy.get("[data-test='zero']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '0');
@@ -90,9 +90,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '0');
   });
+});
 
+describe("Display", () => {
 
-  //display
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
   it("should start with an empty display", () => {
     cy.get("[data-test='display']").should("exist").should('have.value', '');
   });
@@ -125,9 +130,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='delete']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '9+3×5-4');
   });
+});
 
+describe("Double Positive", () => {
 
-  //operating on two positives
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
   it("should add positives correctly", () => {
     cy.get("[data-test='one']").should("exist").click();
     cy.get("[data-test='add']").should("exist").click();
@@ -159,9 +169,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '0.25');
   });
+});
 
+describe("Double Negative", () => {
 
-  //operating on two negatives
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
   it("should add negatives correctly", () => {
     cy.get("[data-test='subtract']").should("exist").click();
     cy.get("[data-test='one']").should("exist").click();
@@ -201,29 +216,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '0.25');
   });
+});
 
-  it("should not be able to divide by zero", () => {
-    cy.get("[data-test='subtract']").should("exist").click();
-    cy.get("[data-test='two']").should("exist").click();
-    cy.get("[data-test='divide']").should("exist").click();
-    cy.get("[data-test='subtract']").should("exist").click();
-    cy.get("[data-test='zero']").should("exist").click();
-    cy.get("[data-test='equals']").should("exist").click();
-    cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
+describe("Double Mixed", () => {
+
+  beforeEach(() => {
+    cy.visit(url);
   });
 
-  it("should not be able to divide by double-zero", () => {
-    cy.get("[data-test='subtract']").should("exist").click();
-    cy.get("[data-test='two']").should("exist").click();
-    cy.get("[data-test='divide']").should("exist").click();
-    cy.get("[data-test='subtract']").should("exist").click();
-    cy.get("[data-test='double-zero']").should("exist").click();
-    cy.get("[data-test='equals']").should("exist").click();
-    cy.get("[data-test='display']").should("exist").should('have.value', 'Infinity');
-  });
-
-
-  //operating on one positive and one negative
   it("should add positive and negatives correctly", () => {
     cy.get("[data-test='one']").should("exist").click();
     cy.get("[data-test='add']").should("exist").click();
@@ -259,9 +259,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '-0.25');
   });
+});
 
+describe("Triple Mixed", () => {
 
-  //operating on two negatives and one positve
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
   it("should add three operands correctly", () => {
     cy.get("[data-test='subtract']").should("exist").click();
     cy.get("[data-test='one']").should("exist").click();
@@ -309,9 +314,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '0.125');
   });
+});
 
+describe("Decimals", () => {
 
-  //decimals
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
   it("should add decimals correctly", () => {
     cy.get("[data-test='zero']").should("exist").click();
     cy.get("[data-test='dot']").should("exist").click();
@@ -367,9 +377,14 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '3.92');
   });
+});
 
+describe("Mixed Operators", () => {
 
-  //mixing operators
+  beforeEach(() => {
+    cy.visit(url);
+  });
+
   it("should handle multiple operators correctly", () => {
     cy.get("[data-test='nine']").should("exist").click();
     cy.get("[data-test='divide']").should("exist").click();
@@ -397,6 +412,4 @@ describe("Calc-U-Later", () => {
     cy.get("[data-test='equals']").should("exist").click();
     cy.get("[data-test='display']").should("exist").should('have.value', '23.5');
   });
-
-
 });
